@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wiki</title>
+<style>
+    .wiki-wrapper {
+        max-width: 1200px;
+        margin: 60px auto 0 auto;
+        padding: 0 20px;
+        font-family: 'Ubuntu', sans-serif;
+    }
+    .wiki-header {
+        font-size: 28px;
+        font-weight: bold;
+        border-bottom: 3px solid var(--mint);
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .wiki-header::before {
+        content: "";
+        font-size: 24px;
+    }
+    .wiki-grid {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+    .wiki-content {
+        flex: 1;
+    }
+    .wiki-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid #ddd;
+    }
+    .wiki-section h2 {
+        margin-top: 0;
+        font-size: 22px;
+        color: #222;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    .wiki-section h3 {
+        font-size: 16px;
+        color: #444;
+        margin: 20px 0 10px 0;
+    }
+    .wiki-section p {
+        color: #555;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    .wiki-section ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+    .wiki-section li {
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 14px;
+    }
+    .wiki-section code {
+        background: #f4f4f4;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        color: #c7254e;
+        font-size: 13px;
+    }
+
+    .wiki-infobox {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        width: 320px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .infobox-head {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 6px;
+        border-left: 4px solid var(--mint);
+        margin-bottom: 15px;
+    }
+    .infobox-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+    .infobox-table tr {
+        border-bottom: 1px solid #eee;
+    }
+    .infobox-table tr:last-child {
+        border-bottom: none;
+    }
+    .infobox-table td {
+        padding: 10px 4px;
+        vertical-align: top;
+    }
+    .infobox-label {
+        font-weight: bold;
+        color: #666;
+        width: 40%;
+    }
+    .infobox-value {
+        color: #222;
+        width: 60%;
+    }
+
+    @media (max-width: 900px) {
+        .wiki-grid { flex-direction: column; }
+        .wiki-infobox { width: 100%; box-sizing: border-box; order: -1; }
+    }
+</style>
+</head>
+<body>
+<div class="wiki-wrapper">
+    <div class="wiki-header">Winemint Wiki</div>
+    
+    <div class="wiki-grid">
+        <div class="wiki-content">
+            
+            <div class="wiki-section">
+                <h2>About the project</h2>
+                <p><strong>Winemint</strong>— is an independent distribution of the Linux operating system created by the developer <strong>Andreas Winter (Andreas7313)</strong>. The project is a custom modification of the Linux Mint base, deeply optimized for the needs of gamers, system engineers, and users who actively use Windows software through the Wine compatibility layer.</p>
+                <p>The distribution's core concept is to provide a fully configured desktop environment with stripped-out background processes, clean default profiles, and built-in mechanisms for seamlessly running Windows scripts and automating system processes.</p>
+            </div>
+
+            <div class="wiki-section">
+                <h2>Wine system modifications</h2>
+                <h3>Power Management Bridge Integration</h3>
+                <p>Winemint's main technical feature is its expansion of the Wine subsystem's standard capabilities. The distribution includes a custom automation utility that directly links Windows power management commands to the Linux host system:</p>
+                <ul>
+                    <li>Native executable file <code>shutdown.exe</code> integrated directly into the system prefix catalogs <code>drive_c/windows/system32/</code> and <code>drive_c/windows/syswow64/</code>.</li>
+                    <li><strong>Operation logic:</strong> When calling the shutdown command from the Wine subsystem (for example, from Windows games, specific software or automatic <code>.bat</code>/<code>.cmd</code> script) The custom executable intercepts arguments (such as <code>/s</code>, <code>/r</code>, <code>/t</code>). If the disable flag is selected, the utility executes the direct command <code>start /unix /sbin/poweroff</code>. If the reboot flag is selected, the native path is called <code>start /unix /sbin/reboot</code>. Thanks to Linux Mint's built-in policies, these commands are executed instantly and without asking for passwords <code>sudo</code>.</li>
+                </ul>
+            </div>
+
+            <div class="wiki-section">
+                <h2>Application isolation and structure</h2>
+                <h3>Directory /apps</h3>
+                <ul>
+                    <li>The catalog includes a pre-installed online game. <strong>Tic-Tac-Toe</strong> written in Python. The system includes graphical dependencies out of the box. <code>python3-tk</code> and packages <code>tcl/tk</code>.</li>
+                    <li>Configured cross-cutting file associations (MimeTypes): executable packages <code>.msi</code> by default are redirected to the automatic Wine installer, and scripts <code>.py</code> are launched directly inside the terminal emulator.</li>
+                </ul>
+            </div>
+
+            <div class="wiki-section">
+                <h2>Customization of work environments (DE)</h2>
+                <h3>Editorial specifics XFCE</h3>
+                <ul>
+                    <li><strong>Graphics modification:</strong> The original Linux Mint wallpaper with 3D tile texture has been processed and darkened using Photopea to create a clean dark style.</li>
+                </ul>
+                <h3>Editorial specifics KDE Plasma</h3>
+                <ul>
+                    <li>Author's wallpapers and icons are integrated at the user template level <code>/etc/skel/.local/share/</code>.</li>
+                    <li>A valid metadata manifest file has been created. <code>metadata.desktop</code> With attribution to Andreas7313, the wallpapers are correctly indexed by the Plasma engine and are available for one-click switching in the general settings.</li>
+                    <li>To the local topic index <code>hicolor</code> Scalable vector logo embedded <code>winemint-logo.svg</code>, accessible via quick search when customizing the Start widget button.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="wiki-infobox">
+            <div class="infobox-head">Winemint</div>
+            <center><img src="winemintlogo.png" alt="Winemint logo" height="100px"></center>
+            <table class="infobox-table">
+                <tr>
+                    <td class="infobox-label">Developer</td>
+                    <td class="infobox-value">Andreas Winter (Andreas7313)</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">OS family</td>
+                    <td class="infobox-value">Linux (Mint-based)</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Warp</td>
+                    <td class="infobox-value">Linux Mint 22.3 XFCE</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Architecture</td>
+                    <td class="infobox-value">x86-64 (64-bit)</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">DE</td>
+                    <td class="infobox-value">XFCE, KDE Plasma</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">License</td>
+                    <td class="infobox-value">GNU GPL v3</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Release version</td>
+                    <td class="infobox-value">v0.5 64-bit</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Project website</td>
+                    <td class="infobox-value"><a href="https://winemint.github.io/download" target="_blank" style="color: var(--mint); font-weight: bold;">winemint.github.io</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
